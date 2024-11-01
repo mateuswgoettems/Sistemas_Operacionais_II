@@ -37,11 +37,22 @@ Este projeto configura um cluster Kubernetes em um ambiente bare-metal no Proxmo
    - **Instalação**: A instalação do Ingress Nginx também será realizada com Helm dentro do cluster Kubernetes.
 
 ### 6. Docker
-   - **Descrição**: Docker é o runtime de container padrão para Kubernetes, usado para construir e gerenciar imagens de containers para as aplicações.
+   - **Descrição**: Docker foi por muito tempo o runtime de container padrão para Kubernetes, usado para construir e gerenciar imagens de containers para as aplicações. Hoje esse runtime é o Containerd.
    - **Instalação**:
      ```bash
-     sudo apt-get update
-     sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+        sudo apt-get update
+        sudo apt-get install ca-certificates curl
+        sudo install -m 0755 -d /etc/apt/keyrings
+        sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+        sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+        echo \
+        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+        $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+        sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+        sudo apt-get update
+
+        sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
      ```
    - **Documentação**: [Docker Documentation](https://docs.docker.com/)
 
@@ -50,13 +61,6 @@ Este projeto configura um cluster Kubernetes em um ambiente bare-metal no Proxmo
    - **Instalação**:
      ```bash
      sudo apt-get install -y openssh-server
-     ```
-
-### 8. curl (para transferências de arquivos e instalação de ferramentas)
-   - **Descrição**: curl é uma ferramenta de linha de comando usada para transferências de dados, necessária para baixar alguns pacotes e recursos.
-   - **Instalação**:
-     ```bash
-     sudo apt-get install -y curl
      ```
 
 ## Configuração
